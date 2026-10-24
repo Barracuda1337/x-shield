@@ -1,0 +1,35 @@
+! Title: X-Shield Twitter Spam & Phishing Filter
+! Description: Blocks fake video CDNs, phishing redirectors and malicious bot networks targeting X (Twitter).
+! Homepage: https://github.com/Barracuda1337/x-shield
+! Maintainer: Barracuda1337
+! Version: 2026.10.25.1
+! Expires: 1 day
+!
+! [Blocked Phishing & Spam CDN Domains]
+||cdn.eunwo.com^
+||eunwo.com^
+||videy.rest^
+||cdn.videy.rest^
+||videy.co^
+||videy.tv^
+||aceimg.com^
+||aceimp.com^
+||up.aceimp.com^
+||acenmg.fun^
+||acenmg.com^
+||eciamg.com^
+||up.eciamg.com^
+||slicibrive.com^
+||cdn.slicibrive.com^
+||slicedrivee.site^
+||slicedrive.com^
+||slicedrivee.com^
+||terabox.com^
+||teraboxapp.com^
+||1024tera.com^
+||dropgalaxy.com^
+||dropgalaxy.co^
+||ouo.io^
+||linkvertise.com^
+||poophd.com^
+||streambucket.net^

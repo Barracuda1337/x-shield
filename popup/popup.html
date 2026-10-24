@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X-Shield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-wrap">
+    <!-- Header: Exactly matching SEO Lens -->
+    <header class="popup-top">
+      <div class="brand-cluster">
+        <svg class="brand-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span class="brand-title">X-Shield</span>
+      </div>
+      <div class="status-cluster">
+        <span class="status-indicator-dot" id="status-dot"></span>
+        <span class="status-label" id="status-label">Korumada</span>
+      </div>
+    </header>
+
+    <main class="popup-content">
+      <!-- Main Action Box -->
+      <div class="action-box">
+        <div class="action-label">Phishing & Spam Kalkanı</div>
+        <div class="action-desc">Twitter / X sahte .mp4 ve bot yanıtlarını anında engeller.</div>
+        <button type="button" id="btn-toggle-shield" class="btn-primary">
+          <span id="btn-shield-text">Korumayı Durdur</span>
+          <kbd class="kbd-key">Alt + X</kbd>
+        </button>
+      </div>
+
+      <!-- Live Stats Metrics: Clean SEO Lens style cards -->
+      <div class="stats-row">
+        <div class="stat-pill">
+          <span class="stat-pill-label">Bu Sayfada</span>
+          <span class="stat-pill-val highlight" id="stat-tab">0</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-pill-label">Toplam Tehdit</span>
+          <span class="stat-pill-val" id="stat-total">0</span>
+        </div>
+      </div>
+
+      <!-- Mode Selector -->
+      <div class="options-section">
+        <div class="options-header">Engelleme Davranışı</div>
+        <div class="mode-switcher">
+          <button type="button" class="mode-tab active" id="mode-collapse" data-mode="collapse">
+            <span>🛡️ Daralt & İncele</span>
+          </button>
+          <button type="button" class="mode-tab" id="mode-remove" data-mode="remove">
+            <span>👻 Görünmez Mod</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preferences / Options -->
+      <div class="options-section">
+        <div class="options-header">Tercihler</div>
+        
+        <label class="toggle-row">
+          <div class="toggle-text">
+            <span class="toggle-title">Sahte .mp4 Linkleri</span>
+            <span class="toggle-subtitle">Harici şüpheli video linklerini engelle</span>
+          </div>
+          <input type="checkbox" id="setting-mp4" checked>
+        </label>
+
+        <label class="toggle-row">
+          <div class="toggle-text">
+            <span class="toggle-title">Yetişkin Spam Kartları</span>
+            <span class="toggle-subtitle">Tuzak uyarı kartlarını gizle</span>
+          </div>
+          <input type="checkbox" id="setting-adult" checked>
+        </label>
+
+        <label class="toggle-row">
+          <div class="toggle-text">
+            <span class="toggle-title">İkon Rozet Sayacı</span>
+            <span class="toggle-subtitle">Engellenen bot sayısını uzantı simgesinde göster</span>
+          </div>
+          <input type="checkbox" id="setting-badge" checked>
+        </label>
+      </div>
+
+      <!-- Cloud Filter Sync Section (uBlock Origin Style) -->
+      <div class="options-section">
+        <div class="options-header flex-header">
+          <span>Topluluk Filtresi (GitHub)</span>
+          <span class="counter-badge" id="filter-version">v2026.10.25</span>
+        </div>
+        <div class="action-desc" id="sync-desc">uBlock mantığıyla GitHub reposundan otomatik güncellenir.</div>
+        <button type="button" id="btn-sync-filters" class="btn-primary" style="height: 30px; font-size: 11px;">
+          <span id="btn-sync-text">🔄 Filtreleri Şimdi Güncelle</span>
+          <span id="last-sync-label" style="font-size: 10px; color: #71717a; font-weight: normal;">Otomatik (6s)</span>
+        </button>
+      </div>
+
+      <!-- Blacklist Quick Manager -->
+      <div class="options-section">
+        <div class="options-header flex-header">
+          <span>Kara Liste Alan Adları</span>
+          <span class="counter-badge" id="domain-count">0</span>
+        </div>
+
+        <div class="quick-add-wrap">
+          <input type="text" id="input-new-domain" placeholder="Alan adı ekle (Örn: cdn.videy.rest)" spellcheck="false">
+          <button type="button" id="btn-add-domain" class="btn-sub-add">+ Ekle</button>
+        </div>
+
+        <div class="crypto-box" id="domain-list">
+          <!-- Rendered dynamically matching SEO Lens crypto-row design -->
+        </div>
+      </div>
+
+      <!-- Support Inovuu Section: Exactly matching SEO Lens -->
+      <div class="donation-section">
+        <div class="donation-header">
+          <span>Support Inovuu</span>
+          <a href="https://buymeacoffee.com/inovuu" target="_blank" rel="noopener" class="bmac-link">☕ Buy Me a Coffee</a>
+        </div>
+        <div class="crypto-box">
+          <div class="crypto-row" data-copy="bc1q42eauhvzea073g05vm9c2ccaj88aklfpeghzfq" title="Kopyalamak için tıklayın">
+            <span class="crypto-tag tag-btc">BTC</span>
+            <span class="crypto-addr">bc1q42...ghzfq</span>
+            <span class="crypto-copy-btn">Copy</span>
+          </div>
+          <div class="crypto-row" data-copy="TWeqVmhN3XduGiYQRQgydXZ4zghJoSjdk3" title="Kopyalamak için tıklayın">
+            <span class="crypto-tag tag-tron">TRC-20</span>
+            <span class="crypto-addr">TWeqVmh...Sjdk3</span>
+            <span class="crypto-copy-btn">Copy</span>
+          </div>
+          <div class="crypto-row" data-copy="0x4Af12931Dad0eBD8C7Eca1258EC4796585F20E0B" title="Kopyalamak için tıklayın">
+            <span class="crypto-tag tag-eth">BEP/ETH</span>
+            <span class="crypto-addr">0x4Af12...0E0B</span>
+            <span class="crypto-copy-btn">Copy</span>
+          </div>
+        </div>
+        <div class="copy-toast" id="copy-toast">Adres kopyalandı!</div>
+      </div>
+    </main>
+
+    <!-- Bottom Footer: Exactly matching SEO Lens -->
+    <footer class="popup-bottom">
+      <span class="footer-meta">v1.1.0</span>
+      <div class="footer-links">
+        <a href="https://buymeacoffee.com/inovuu" target="_blank" rel="noopener" class="footer-link coffee-link">Support ☕</a>
+        <span class="footer-dot">·</span>
+        <a href="https://inovuu.com" target="_blank" rel="noopener" class="footer-link">Inovuu</a>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

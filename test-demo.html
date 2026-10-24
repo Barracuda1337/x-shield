@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X-Shield — Twitter / X Simülasyon Test Ortamı</title>
+  <!-- Load extension CSS for testing in browser directly -->
+  <link rel="stylesheet" href="content/content.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000000;
+      color: #e7e9ea;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+
+    /* Test Banner Header */
+    .test-header-bar {
+      max-width: 620px;
+      width: 100%;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border: 1px solid #0284c7;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.25);
+    }
+
+    .test-header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 6px;
+    }
+
+    .test-header-desc {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    .test-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-test {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .btn-test:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-test-danger {
+      border-color: #f43f5e;
+      color: #fda4af;
+      background: rgba(244, 63, 94, 0.1);
+    }
+
+    .btn-test-danger:hover {
+      background: rgba(244, 63, 94, 0.25);
+    }
+
+    /* Twitter / X Feed Container */
+    .x-feed-container {
+      max-width: 620px;
+      width: 100%;
+      border-left: 1px solid #2f3336;
+      border-right: 1px solid #2f3336;
+      background: #000000;
+    }
+
+    /* Tweet Article Card */
+    article[data-testid="tweet"] {
+      border-bottom: 1px solid #2f3336;
+      padding: 14px 16px;
+      display: flex;
+      gap: 12px;
+      transition: background 0.15s ease;
+      cursor: pointer;
+    }
+
+    article[data-testid="tweet"]:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+
+    .tweet-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .tweet-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tweet-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .author-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #e7e9ea;
+    }
+
+    .author-handle, .tweet-time {
+      color: #71767b;
+      font-size: 14px;
+    }
+
+    div[data-testid="tweetText"] {
+      font-size: 15px;
+      color: #e7e9ea;
+      word-break: break-word;
+      line-height: 1.45;
+    }
+
+    div[data-testid="tweetText"] a {
+      color: #1d9bf0;
+      text-decoration: none;
+    }
+
+    div[data-testid="tweetText"] a:hover {
+      text-decoration: underline;
+    }
+
+    /* Fake Spam Video Card */
+    .fake-card-wrapper {
+      margin-top: 10px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #2f3336;
+      background: #16181c;
+      position: relative;
+    }
+
+    .fake-card-image {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      filter: blur(1px);
+    }
+
+    .fake-card-overlay-badge {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .play-icon {
+      font-size: 40px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .fake-card-footer {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: #71767b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Fake Adult Warning Card */
+    .fake-adult-warning {
+      background: #18191c;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      margin-top: 10px;
+      border: 1px solid #2f3336;
+    }
+
+    .warning-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .warning-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e7e9ea;
+      margin-bottom: 4px;
+    }
+
+    .warning-sub {
+      font-size: 13px;
+      color: #71767b;
+      margin-bottom: 14px;
+    }
+
+    .btn-show-warning {
+      background: #eff3f4;
+      color: #0f1419;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Tweet Interactions */
+    .tweet-actions {
+      display: flex;
+      justify-content: space-between;
+      max-width: 420px;
+      margin-top: 12px;
+      color: #71767b;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Test Environment Control Bar -->
+  <div class="test-header-bar">
+    <div class="test-header-title">
+      <span>🛡️</span>
+      <span>X-Shield — Twitter / X Test & Simülasyon Sayfası</span>
+    </div>
+    <p class="test-header-desc">
+      Aşağıda kullanıcının ekran görüntülerinde ilettiği <strong>cdn.videy.rest</strong>, <strong>cdn.eunwo.com</strong>, <strong>Form Imgur con</strong> ve <strong>LEAK VIRAL VIDEO</strong> bot spam yanıtları ve temiz yanıtlar yer almaktadır.
+      Eklenti yüklendiğinde spam tweet'ler otomatik olarak <strong>X-Shield Kalkanı</strong> ile gizlenir.
+    </p>
+    <div class="test-actions">
+      <button class="btn-test" id="btnToggleAll">Tümünü İncele / Gizle</button>
+      <button class="btn-test btn-test-danger" id="btnAddSpamDemo">➕ Yeni Spam Bot Tweeti Ekle</button>
+      <button class="btn-test" id="btnAddCleanDemo">➕ Temiz Tweet Ekle</button>
+    </div>
+  </div>
+
+  <!-- Simulated Twitter / X Feed -->
+  <main class="x-feed-container" id="feedContainer">
+
+    <!-- Post 0: Main Viral Tweet (Legitimate) -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">🚀</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Tech News Global</span>
+          <span class="author-handle">@technewsglobal</span>
+          <span class="tweet-time">· 2s</span>
+        </div>
+        <div data-testid="tweetText">
+          Breaking: Yeni yapay zeka modelleri ve internet güvenlik standartları güncellendi. Neler düşünüyorsunuz? Yanıtlarda tartışalım. 👇
+        </div>
+        <div class="tweet-actions">
+          <span>💬 412</span>
+          <span>🔁 1.2 B</span>
+          <span>❤️ 9.8 B</span>
+          <span>📊 140 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPAM 1: Gilberto Rico Hdz (Directly from user screenshot 1) -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">🤖</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Gilberto Rico Hdz</span>
+          <span class="author-handle">@suigeneris2k9</span>
+          <span class="tweet-time">· 2s</span>
+        </div>
+        <div data-testid="tweetText">
+          Fuxvgio<br>
+          <a href="https://cdn.videy.rest/zPfc0r.mp4" target="_blank">cdn.videy.rest/zPfc0r.mp4</a>
+        </div>
+        <div class="tweet-actions">
+          <span>💬 0</span>
+          <span>🔁 0</span>
+          <span>❤️ 1</span>
+          <span>📊 44 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPAM 2: Rajesh mcy (Directly from user screenshot 1) -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">🤖</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Rajesh mcy</span>
+          <span class="author-handle">@RajeshMcy</span>
+          <span class="tweet-time">· 1 sa</span>
+        </div>
+        <div data-testid="tweetText">
+          <a href="https://cdn.eunwo.com/RYq7IW0.mp4" target="_blank">cdn.eunwo.com/RYq7IW0.mp4</a>
+        </div>
+        <div class="tweet-actions">
+          <span>💬 0</span>
+          <span>🔁 0</span>
+          <span>❤️ 0</span>
+          <span>📊 30 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- CLEAN 1: Normal user reply -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">👨‍💻</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Can Yıldız</span>
+          <span class="author-handle">@canyildiz</span>
+          <span class="tweet-time">· 45d</span>
+        </div>
+        <div data-testid="tweetText">
+          Kesinlikle harika bir gelişme! Özellikle tarayıcı güvenliği ve kimlik avı korumaları tarafında çok daha fazla yenilik bekliyorum.
+        </div>
+        <div class="tweet-actions">
+          <span>💬 3</span>
+          <span>🔁 1</span>
+          <span>❤️ 24</span>
+          <span>📊 1.2 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPAM 3: Salvador Barajas with "Form Imgur con" card (Directly from user screenshot 1) -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">🤖</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Salvador Barajas</span>
+          <span class="author-handle">@Siabareps</span>
+          <span class="tweet-time">· 18d</span>
+        </div>
+        <div data-testid="tweetText">
+          <!-- Card with fake domain -->
+          <div class="fake-card-wrapper" data-testid="card.wrapper">
+            <div class="fake-card-image">
+              <span class="play-icon">▶</span>
+              <span class="fake-card-overlay-badge">Form Imgur con</span>
+            </div>
+            <div class="fake-card-footer">
+              <span>Kaynak: cdn.eunwo.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="tweet-actions">
+          <span>💬 0</span>
+          <span>🔁 0</span>
+          <span>❤️ 2</span>
+          <span>📊 30 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPAM 4: stick with "part9" & Adult Content card (Directly from user screenshot 2) -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">🤖</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">stick</span>
+          <span class="author-handle">@stick9h</span>
+          <span class="tweet-time">· 20d</span>
+        </div>
+        <div data-testid="tweetText">
+          part9
+          <div class="fake-adult-warning" data-testid="card.wrapper">
+            <div class="warning-icon">👁️</div>
+            <div class="warning-title">Content warning: Adult Content</div>
+            <div class="warning-sub">X labeled this post as containing Adult Content.</div>
+            <button class="btn-show-warning">Show</button>
+            <div style="margin-top: 10px;">
+              <span style="font-size: 11px; background: #000; padding: 2px 6px; border-radius: 4px;">leak video</span>
+            </div>
+            <div class="fake-card-footer" style="justify-content: center; margin-top: 8px;">
+              <span>Kaynak: cdn.eunwo.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="tweet-actions">
+          <span>💬 2</span>
+          <span>🔁 0</span>
+          <span>❤️ 5</span>
+          <span>📊 5 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SPAM 5: Ada Lorimer with "LEAK VIRAL VIDEO" (Directly from user screenshot 2) -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">🤖</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Ada Lorimer</span>
+          <span class="author-handle">@AdaLorimerem</span>
+          <span class="tweet-time">· 26d</span>
+        </div>
+        <div data-testid="tweetText">
+          <div class="fake-card-wrapper" data-testid="card.wrapper">
+            <div class="fake-card-image">
+              <span class="play-icon">▶</span>
+              <span class="fake-card-overlay-badge" style="background: rgba(220, 38, 38, 0.85);">LEAK VIRAL VIDEO</span>
+            </div>
+            <div class="fake-card-footer">
+              <span>Kaynak: cdn.eunwo.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="tweet-actions">
+          <span>💬 1</span>
+          <span>🔁 0</span>
+          <span>❤️ 3</span>
+          <span>📊 12 B</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- CLEAN 2: Another legitimate reply -->
+    <article data-testid="tweet" role="article">
+      <div class="tweet-avatar">👩‍🔬</div>
+      <div class="tweet-content">
+        <div class="tweet-header">
+          <span class="author-name">Zeynep Kaya</span>
+          <span class="author-handle">@zeynepk</span>
+          <span class="tweet-time">· 10d</span>
+        </div>
+        <div data-testid="tweetText">
+          Paylaşım için teşekkürler! Makaleyi okudum, gayet detaylı hazırlanmış.
+        </div>
+        <div class="tweet-actions">
+          <span>💬 0</span>
+          <span>🔁 2</span>
+          <span>❤️ 15</span>
+          <span>📊 800</span>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Interactive buttons in test page -->
+  <script>
+    document.getElementById('btnAddSpamDemo').addEventListener('click', () => {
+      const feed = document.getElementById('feedContainer');
+      const art = document.createElement('article');
+      art.setAttribute('data-testid', 'tweet');
+      art.setAttribute('role', 'article');
+      art.innerHTML = `
+        <div class="tweet-avatar">🤖</div>
+        <div class="tweet-content">
+          <div class="tweet-header">
+            <span class="author-name">Random Bot ${Math.floor(Math.random() * 900 + 100)}</span>
+            <span class="author-handle">@bot_${Date.now().toString().slice(-4)}</span>
+            <span class="tweet-time">· şimdi</span>
+          </div>
+          <div data-testid="tweetText">
+            leak viral video full video in bio<br>
+            <a href="https://cdn.eunwo.com/leak_${Math.floor(Math.random() * 9999)}.mp4" target="_blank">cdn.eunwo.com/leak_${Math.floor(Math.random() * 9999)}.mp4</a>
+          </div>
+          <div class="tweet-actions">
+            <span>💬 0</span><span>🔁 0</span><span>❤️ 0</span><span>📊 1</span>
+          </div>
+        </div>
+      `;
+      feed.appendChild(art);
+    });
+
+    document.getElementById('btnAddCleanDemo').addEventListener('click', () => {
+      const feed = document.getElementById('feedContainer');
+      const art = document.createElement('article');
+      art.setAttribute('data-testid', 'tweet');
+      art.setAttribute('role', 'article');
+      art.innerHTML = `
+        <div class="tweet-avatar">😊</div>
+        <div class="tweet-content">
+          <div class="tweet-header">
+            <span class="author-name">Gerçek Kullanıcı</span>
+            <span class="author-handle">@user_${Date.now().toString().slice(-4)}</span>
+            <span class="tweet-time">· şimdi</span>
+          </div>
+          <div data-testid="tweetText">
+            Bu tweet tamamen temiz ve normal bir kullanıcı yorumudur. X-Shield tarafından engellenmemelidir.
+          </div>
+          <div class="tweet-actions">
+            <span>💬 1</span><span>🔁 0</span><span>❤️ 4</span><span>📊 25</span>
+          </div>
+        </div>
+      `;
+      feed.appendChild(art);
+    });
+
+    document.getElementById('btnToggleAll').addEventListener('click', () => {
+      const banners = document.querySelectorAll('.xshield-btn-toggle');
+      banners.forEach(btn => btn.click());
+    });
+  </script>
+</body>
+</html>

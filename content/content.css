@@ -1,0 +1,180 @@
+/**
+ * X-Shield — Content CSS
+ * Clean, modern cyber defense styling for blocked spam/phishing tweets on X (Twitter).
+ */
+
+/* When completely hidden (Remove Mode) */
+article.xshield-removed,
+div.xshield-removed {
+  display: none !important;
+}
+
+/* When collapsed (Collapse Mode) */
+article.xshield-collapsed,
+div.xshield-collapsed {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Hide tweet body children when collapsed, except our custom shield banner */
+article.xshield-collapsed > div:not(.xshield-banner),
+div.xshield-collapsed > div:not(.xshield-banner) {
+  display: none !important;
+}
+
+/* When user clicks 'Show / Reveal' */
+article.xshield-collapsed.xshield-revealed > div:not(.xshield-banner),
+div.xshield-collapsed.xshield-revealed > div:not(.xshield-banner) {
+  display: block !important;
+  filter: contrast(0.95);
+  border-left: 3px solid #f43f5e !important;
+  background-color: rgba(244, 63, 94, 0.03) !important;
+}
+
+/* X-Shield Collapsed Banner (Clean SEO Lens Minimalist Design) */
+.xshield-banner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 6px 12px !important;
+  margin: 3px 12px !important;
+  background: #121215 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  box-sizing: border-box !important;
+  transition: all 120ms ease !important;
+  z-index: 5 !important;
+  min-height: 28px !important;
+}
+
+.xshield-banner:hover {
+  background: #16161a !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Banner Info Section */
+.xshield-banner-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  min-width: 0 !important;
+}
+
+.xshield-tag-shield {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  padding: 2px 5px !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-radius: 4px !important;
+  color: #10b981 !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
+  font-family: ui-monospace, SFMono-Regular, monospace !important;
+}
+
+.xshield-tag-alert {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  color: #f4f4f5 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.xshield-threat-domain {
+  display: inline-block !important;
+  padding: 2px 6px !important;
+  background: rgba(239, 68, 68, 0.12) !important;
+  border: 1px solid rgba(239, 68, 68, 0.25) !important;
+  border-radius: 4px !important;
+  color: #ef4444 !important;
+  font-size: 11px !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: 240px !important;
+}
+
+/* Actions Section */
+.xshield-banner-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-shrink: 0 !important;
+}
+
+.xshield-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 24px !important;
+  padding: 0 8px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 120ms ease !important;
+  outline: none !important;
+  border: none !important;
+  user-select: none !important;
+}
+
+.xshield-btn-toggle {
+  background: #f4f4f5 !important;
+  color: #09090b !important;
+}
+
+.xshield-btn-toggle:hover {
+  background: #ffffff !important;
+}
+
+.xshield-revealed .xshield-btn-toggle {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+.xshield-revealed .xshield-btn-toggle:hover {
+  background: rgba(239, 68, 68, 0.25) !important;
+}
+
+/* In-Page Toast for Notifications */
+.xshield-toast {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(56, 189, 248, 0.25) !important;
+  border-radius: 10px !important;
+  padding: 12px 18px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  z-index: 9999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  backdrop-filter: blur(10px) !important;
+  animation: xshieldToastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+@keyframes xshieldToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
